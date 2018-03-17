@@ -28,6 +28,31 @@ namespace Righthand.Navigation.Sample.Droid
 		{
 		}
 		
+		public partial class Animator
+		{
+			
+			// aapt resource value: 0x7f040000
+			public const int slide_from_left = 2130968576;
+			
+			// aapt resource value: 0x7f040001
+			public const int slide_from_right = 2130968577;
+			
+			// aapt resource value: 0x7f040002
+			public const int slide_to_left = 2130968578;
+			
+			// aapt resource value: 0x7f040003
+			public const int slide_to_right = 2130968579;
+			
+			static Animator()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Animator()
+			{
+			}
+		}
+		
 		public partial class Attribute
 		{
 			
@@ -44,14 +69,14 @@ namespace Righthand.Navigation.Sample.Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050002
-			public const int button = 2131034114;
+			// aapt resource value: 0x7f070002
+			public const int button = 2131165186;
 			
-			// aapt resource value: 0x7f050001
-			public const int host = 2131034113;
+			// aapt resource value: 0x7f070001
+			public const int host = 2131165185;
 			
-			// aapt resource value: 0x7f050000
-			public const int title = 2131034112;
+			// aapt resource value: 0x7f070000
+			public const int title = 2131165184;
 			
 			static Id()
 			{
@@ -59,6 +84,22 @@ namespace Righthand.Navigation.Sample.Droid
 			}
 			
 			private Id()
+			{
+			}
+		}
+		
+		public partial class Integer
+		{
+			
+			// aapt resource value: 0x7f050000
+			public const int navigation_time = 2131034112;
+			
+			static Integer()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Integer()
 			{
 			}
 		}
@@ -107,11 +148,11 @@ namespace Righthand.Navigation.Sample.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int app_name = 2130968577;
+			// aapt resource value: 0x7f060001
+			public const int app_name = 2131099649;
 			
-			// aapt resource value: 0x7f040000
-			public const int no_page = 2130968576;
+			// aapt resource value: 0x7f060000
+			public const int no_page = 2131099648;
 			
 			static String()
 			{

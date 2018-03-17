@@ -1,5 +1,7 @@
-﻿using Android.App;
+﻿using Android.Animation;
+using Android.App;
 using Android.OS;
+using Android.Views;
 using Righthand.Navigation.Sample.Droid.Fragments;
 using Righthand.Navigation.Sample.ViewModels;
 using System;
@@ -22,7 +24,7 @@ namespace Righthand.Navigation.Sample.Droid
             SetContentView(Resource.Layout.Main);
         }
 
-        void UpdateFragment()
+        void UpdateFragment(bool isBack, bool isAnimated)
         {
             if (viewModel.CurrentPage != null)
             {
@@ -40,6 +42,22 @@ namespace Righthand.Navigation.Sample.Droid
                 }
 
                 var transaction = fragmentManager.BeginTransaction();
+                if (isAnimated)
+                {
+                    int enter;
+                    int exit;
+                    if (isBack)
+                    {
+                        exit = Resource.Animator.slide_to_right;
+                        enter = Resource.Animator.slide_from_left;
+                    }
+                    else
+                    {
+                        exit = Resource.Animator.slide_to_left;
+                        enter = Resource.Animator.slide_from_right;
+                    }
+                    transaction.SetCustomAnimations(enter, exit);
+                }
                 var fragment = GetPageFragment(viewModel.CurrentPage);
                 transaction.Replace(Resource.Id.host, fragment, ChildFragment);
                 transaction.Commit();
@@ -48,7 +66,6 @@ namespace Righthand.Navigation.Sample.Droid
                 Console.WriteLine($"Fragment stack is {fragmentManager.BackStackEntryCount} deep");
             }
         }
-
         static Fragment GetPageFragment(PageViewModel page)
         {
             switch (page)
@@ -67,13 +84,13 @@ namespace Righthand.Navigation.Sample.Droid
         protected override void OnResume()
         {
             base.OnResume();
-            UpdateFragment();
+            UpdateFragment(isBack: false, isAnimated: false);
             viewModel.NavigationService.PageNavigated += NavigationService_PageNavigated;
         }
 
         void NavigationService_PageNavigated(object sender, PageNavigatedEventArgs<PageViewModel> e)
         {
-            UpdateFragment();
+            UpdateFragment(isBack: e.IsBack, isAnimated: true);
         }
 
         protected override void OnPause()

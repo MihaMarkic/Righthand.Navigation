@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<righthand.navigation.sample.droid.NLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-  <TextView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_bright">
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-              android:id="@+id/title" />
-  <Button android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-          android:id="@+id/button"
-          android:text="To third" />
-</LinearLayout>
+        android:id="@+id/title"
+        tools:text="Title"
+        android:textColor="#ff1a237e" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:text="To third" />
+</righthand.navigation.sample.droid.NLinearLayout>
