@@ -17,3 +17,5 @@ Goal of this project is to create a cross platform lightweight navigation librar
 ## Samples
 
 Currently only a sample for Android is in work. It will be followed by an iOS one.
+
+It shows three differently colored fragments based on MVVM. First two fragments have button to navigate forward, backward navigation is achieved using Back button. An animation is used to show navigation direction.
