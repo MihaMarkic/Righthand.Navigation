@@ -22,6 +22,10 @@ Sample is for Android and iOS and share common base (MVVM).
 
 **Getting result from navigate page**: Third page contains a text field and when navigated back to second page, the content of that text field is retrieved and shown.
 
+**Go back manually**: Click *Go Back* button on second page.
+
+**Clear navigation stack**: Click *Clear navigation stack* button on second page.
+
 ### How to run
 
 Android sample uses Debug/Any CPU context, while iOS sample uses Debug/iPhoneSimulator. Other contexts are not tested.
