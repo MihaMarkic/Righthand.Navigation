@@ -22,7 +22,7 @@ namespace Righthand.Navigation.Sample.ViewModels
 
         public virtual void Removed()
         {
-            // nothing to do
+            Dispose();
         }
     }
 }

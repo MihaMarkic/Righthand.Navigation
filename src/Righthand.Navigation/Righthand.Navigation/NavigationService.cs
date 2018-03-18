@@ -10,12 +10,20 @@ namespace Righthand.Navigation
     {
         readonly Stack<HistoryItem<TPage>> history = new Stack<HistoryItem<TPage>>();
         public event EventHandler<PageNavigatedEventArgs<TPage>> PageNavigated;
+        public event EventHandler<NavigationHistoryClearedEventArgs> NavigationHistoryCleared;
         HistoryItem<TPage> current;
         protected virtual void OnPageNavigated(PageNavigatedEventArgs<TPage> e) => PageNavigated?.Invoke(this, e);
+        protected virtual void OnNavigationHistoryCleared(NavigationHistoryClearedEventArgs e) => NavigationHistoryCleared?.Invoke(this, e);
         public int NavigationDepth=> history.Count;
-        public void Clear()
+        public void ClearHistory()
         {
-            history.Clear();
+            int count = history.Count;
+            while (history.Count > 0)
+            {
+                var item = history.Pop();
+                item.Page.Removed();
+            }
+            OnNavigationHistoryCleared(new NavigationHistoryClearedEventArgs(0, count));
         }
         public async ValueTask<(bool didNavigate, TNextPage Result)> NavigateAsync<TNextPage>(TNextPage to, bool waitFor, CancellationToken ct)
             where TNextPage : TPage        

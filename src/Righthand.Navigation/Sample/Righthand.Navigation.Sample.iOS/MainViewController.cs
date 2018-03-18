@@ -22,6 +22,21 @@ namespace Righthand.Navigation.Sample.iOS
                 UpdateViewController(viewModel.CurrentPage);
             }
             viewModel.NavigationService.PageNavigated += ViewModel_PageNavigated;
+            viewModel.NavigationService.NavigationHistoryCleared += NavigationService_NavigationHistoryCleared;
+        }
+        public override void ViewDidUnload()
+        {
+            base.ViewDidUnload();
+            viewModel.NavigationService.PageNavigated -= ViewModel_PageNavigated;
+            viewModel.NavigationService.NavigationHistoryCleared -= NavigationService_NavigationHistoryCleared;
+        }
+        void NavigationService_NavigationHistoryCleared(object sender, NavigationHistoryClearedEventArgs e)
+        {
+            for (int i = 0; i < e.Count; i++)
+            {
+                UIViewController[] newControllers = new UIViewController[] { ViewControllers[ViewControllers.Length - 1] };
+                SetViewControllers(newControllers, animated: false);
+            }
         }
         bool isManualBack;
         void ViewModel_PageNavigated(object sender, PageNavigatedEventArgs<PageViewModel> e)
@@ -43,6 +58,7 @@ namespace Righthand.Navigation.Sample.iOS
                     }
                     break;
             }
+            Console.WriteLine($"NavigationController stack depth after navigation {ViewControllers.Length}");
         }
         void UpdateViewController(PageViewModel pageViewModel)
         {
@@ -76,14 +92,6 @@ namespace Righthand.Navigation.Sample.iOS
             var result = base.PopViewController(animated);
             Console.WriteLine($"History depth after navigation is {viewModel.NavigationService.NavigationDepth}");
             return result;
-		}
-		protected override void Dispose(bool disposing)
-		{
-            if (disposing)
-            {
-                viewModel.NavigationService.PageNavigated -= ViewModel_PageNavigated;
-            }
-            base.Dispose(disposing);
 		}
 	}
 }

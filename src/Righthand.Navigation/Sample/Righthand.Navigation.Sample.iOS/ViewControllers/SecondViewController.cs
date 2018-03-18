@@ -9,6 +9,8 @@ namespace Righthand.Navigation.Sample.iOS.ViewControllers
     public class SecondViewController: BaseViewController<SecondPageViewModel>
     {
         UILabel result;
+        UIButton goBack;
+        UIButton clearStack;
         public SecondViewController(SecondPageViewModel viewModel):base(viewModel)
         {
             View.BackgroundColor = UIColor.FromRGB(0x1a, 0x23, 0x7e);
@@ -25,19 +27,45 @@ namespace Righthand.Navigation.Sample.iOS.ViewControllers
             };
             Add(result);
             UpdateResultLabel();
-            var goBack = AddAdditionalButton("Go back", result);
+            goBack = AddAdditionalButton("Go back", result);
             goBack.TouchUpInside += GoBack_TouchUpInside;
+            clearStack = AddAdditionalButton("Clear navigation stack", goBack);
+            clearStack.TouchUpInside += ClearStack_TouchUpInside;
             viewModel.PropertyChanged += ViewModel_PropertyChanged;
+            viewModel.GoBackCommand.CanExecuteChanged += GoBackCommand_CanExecuteChanged;
+            viewModel.ClearHistoryCommand.CanExecuteChanged += ClearHistoryCommand_CanExecuteChanged;
         }
-
-        private void GoBack_TouchUpInside(object sender, EventArgs e)
+        void ClearHistoryCommand_CanExecuteChanged(object sender, EventArgs e)
+        {
+            clearStack.Enabled = viewModel.ClearHistoryCommand.CanExecute(null);
+        }
+        void GoBackCommand_CanExecuteChanged(object sender, EventArgs e)
+        {
+            goBack.Enabled = viewModel.GoBackCommand.CanExecute(null);
+        }
+        public override void ViewDidUnload()
+        {
+            base.ViewDidUnload();
+            viewModel.PropertyChanged -= ViewModel_PropertyChanged;
+            viewModel.GoBackCommand.CanExecuteChanged -= GoBackCommand_CanExecuteChanged;
+            viewModel.ClearHistoryCommand.CanExecuteChanged -= ClearHistoryCommand_CanExecuteChanged;
+        }
+        void ClearStack_TouchUpInside(object sender, EventArgs e)
+        {
+            if (viewModel.ClearHistoryCommand.CanExecute(null))
+            {
+                viewModel.ClearHistoryCommand.Execute(null);
+            }
+            var navigationController = (UINavigationController)ParentViewController;
+            Console.WriteLine($"NavigationController stack depth after clear {navigationController.ViewControllers.Length}");
+        }
+        void GoBack_TouchUpInside(object sender, EventArgs e)
         {
             if (viewModel.GoBackCommand.CanExecute(null))
             {
                 viewModel.GoBackCommand.Execute(null);
             }
         }
-
         UIButton AddAdditionalButton(string title, UIView viewAbove)
         {
             var button = new UIButton
@@ -45,6 +73,7 @@ namespace Righthand.Navigation.Sample.iOS.ViewControllers
                 Frame = new CGRect(new CGPoint(10, viewAbove.Frame.Bottom + 10), CGSize.Empty)
             };
             button.SetTitle(title, UIControlState.Normal);
+            button.SetTitleColor(UIColor.Gray, UIControlState.Disabled);
             button.SizeToFit();
             Add(button);
             return button;

@@ -1,6 +1,5 @@
 ﻿using Android.App;
 using Android.OS;
-using Android.Widget;
 using Righthand.Navigation.Sample.Droid.Fragments;
 using Righthand.Navigation.Sample.ViewModels;
 using System;
@@ -12,7 +11,6 @@ namespace Righthand.Navigation.Sample.Droid
     {
         const string ChildFragment = nameof(ChildFragment);
         static MasterViewModel viewModel;
-        TextView title;
         static MainActivity()
         {
             viewModel = new MasterViewModel();
@@ -22,7 +20,6 @@ namespace Righthand.Navigation.Sample.Droid
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Main);
-            title = FindViewById<TextView>(Resource.Id.title);
         }
 
         void UpdateFragment(bool isBack, bool isAnimated)
@@ -42,7 +39,7 @@ namespace Righthand.Navigation.Sample.Droid
                     }
                 }
 
-                title.Text = viewModel.CurrentPage.Title;
+                Title = viewModel.CurrentPage.Title;
                 var transaction = fragmentManager.BeginTransaction();
                 if (isAnimated)
                 {
