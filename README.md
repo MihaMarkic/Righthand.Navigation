@@ -14,6 +14,14 @@ Supports .NET Standard 2.0 target.
 
 Goal of this project is to create a cross platform lightweight navigation library primarily, but not limited to, mobile devices.
 
+## Features
+
+* Navigation at MVVM level
+* History view models are persisted during runtime
+* Results from next page can be retrieved when it navigates back
+* Navigate back explicitly
+* Clearing navigation stack
+
 ## Samples
 
 Sample is for Android and iOS and share common base (MVVM).
