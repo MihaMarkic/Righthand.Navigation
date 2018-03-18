@@ -20,7 +20,7 @@ Goal of this project is to create a cross platform lightweight navigation librar
 * History view models are persisted during runtime
 * Results from next page can be retrieved when it navigates back
 * Navigate back explicitly
-* Clearing navigation stack
+* Navigation stack can be cleared
 
 ## Samples
 
