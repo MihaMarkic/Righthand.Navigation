@@ -8,7 +8,7 @@ namespace Righthand.Navigation.Sample.iOS.ViewControllers
         where TViewModel: PageViewModel
     {
         protected TViewModel viewModel;
-        UITextView pageTitle;
+        protected UILabel pageTitle;
         public BaseViewController(TViewModel viewModel)
         {
             this.viewModel = viewModel;
@@ -16,7 +16,7 @@ namespace Righthand.Navigation.Sample.iOS.ViewControllers
 		public override void ViewDidLoad()
 		{
             base.ViewDidLoad();
-            pageTitle = new UITextView(new CGRect(10, 50, View.Bounds.Width, 40)) { 
+            pageTitle = new UILabel(new CGRect(10, 100, View.Bounds.Width, 40)) { 
                 Text = viewModel.Title,
                 TextColor = UIColor.White,
                 BackgroundColor = UIColor.Clear,

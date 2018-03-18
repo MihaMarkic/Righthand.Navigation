@@ -16,4 +16,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/button"
         android:text="To third" />
+    <TextView
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/result"
+        android:textColor="#ff1a237e" />
 </righthand.navigation.sample.droid.NLinearLayout>

@@ -11,4 +11,9 @@
         android:id="@+id/title"
         android:textColor="#ffffff8d"
         tools:text="Title" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/inputText"
+        android:hint="Type something" />
 </righthand.navigation.sample.droid.NLinearLayout>

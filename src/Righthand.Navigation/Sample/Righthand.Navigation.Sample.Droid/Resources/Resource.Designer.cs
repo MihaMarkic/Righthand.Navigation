@@ -75,6 +75,12 @@ namespace Righthand.Navigation.Sample.Droid
 			// aapt resource value: 0x7f070001
 			public const int host = 2131165185;
 			
+			// aapt resource value: 0x7f070003
+			public const int inputText = 2131165187;
+			
+			// aapt resource value: 0x7f070004
+			public const int result = 2131165188;
+			
 			// aapt resource value: 0x7f070000
 			public const int title = 2131165184;
 			
