@@ -17,13 +17,14 @@ namespace Righthand.Navigation
         {
             history.Clear();
         }
-        public async ValueTask<(bool didNavigate, TPage Result)> NavigateAsync(TPage to, bool waitFor, CancellationToken ct)
+        public async ValueTask<(bool didNavigate, TNextPage Result)> NavigateAsync<TNextPage>(TNextPage to, bool waitFor, CancellationToken ct)
+            where TNextPage : TPage        
         {
             var returnsTo = current;
             bool didNavigate = await NavigateAsync(to, isBack: false, isAwaited: waitFor);
             if (!didNavigate)
             {
-                return (false, default(TPage));
+                return (false, default(TNextPage));
             }
             else
             {
@@ -32,7 +33,7 @@ namespace Righthand.Navigation
                     try
                     {
                         var from = await WaitForBackToAsync(returnsTo.Page, ct);
-                        return (true, from);
+                        return (true, (TNextPage)from);
                     }
                     catch (OperationCanceledException)
                     {
@@ -41,20 +42,21 @@ namespace Righthand.Navigation
                 }
                 else
                 {
-                    return (true, default(TPage));
+                    return (true, default(TNextPage));
                 }
             }
         }
-        Task<TPage> WaitForBackToAsync(TPage page, CancellationToken ct)
+        Task<TNextPage> WaitForBackToAsync<TNextPage>(TNextPage page, CancellationToken ct)
+            where TNextPage: TPage
         {
-            var tcs = new TaskCompletionSource<TPage>();
+            var tcs = new TaskCompletionSource<TNextPage>();
             EventHandler<PageNavigatedEventArgs<TPage>> handler = null;
             handler = (s, e) =>
             {
                 if (e.IsBack && ReferenceEquals(e.To, page))
                 {
                     PageNavigated -= handler;
-                    tcs.TrySetResult(e.From);
+                    tcs.TrySetResult((TNextPage)e.From);
                 }
             };
             ct.Register(() =>

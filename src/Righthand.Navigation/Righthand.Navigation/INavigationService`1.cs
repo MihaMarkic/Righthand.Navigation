@@ -8,7 +8,8 @@ namespace Righthand.Navigation
     {
         void Clear();
         ValueTask<bool> GoBackAsync(object args = null);
-        ValueTask<(bool didNavigate, TPage Result)> NavigateAsync(TPage to, bool waitFor, CancellationToken ct);
+        ValueTask<(bool didNavigate, TNextPage Result)>NavigateAsync<TNextPage>(TNextPage to, bool waitFor, CancellationToken ct)
+            where TNextPage: TPage;
         int NavigationDepth { get; }
         event EventHandler<PageNavigatedEventArgs<TPage>> PageNavigated;
     }
