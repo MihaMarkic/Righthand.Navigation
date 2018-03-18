@@ -12,7 +12,7 @@ namespace Righthand.Navigation.Sample.iOS.ViewControllers
 		public override void ViewDidLoad()
 		{
             base.ViewDidLoad();
-            var button = AddButton("To Second");
+            var button = AddForwardButton("To Second");
             button.TouchUpInside += Button_TouchUpInside;
 		}
 

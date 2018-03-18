@@ -21,7 +21,7 @@ namespace Righthand.Navigation
             where TNextPage : TPage        
         {
             var returnsTo = current;
-            bool didNavigate = await NavigateAsync(to, isBack: false, isAwaited: waitFor);
+            bool didNavigate = await NavigateAsync(to, NavigationDirection.Forward, isAwaited: waitFor);
             if (!didNavigate)
             {
                 return (false, default(TNextPage));
@@ -53,7 +53,7 @@ namespace Righthand.Navigation
             EventHandler<PageNavigatedEventArgs<TPage>> handler = null;
             handler = (s, e) =>
             {
-                if (e.IsBack && ReferenceEquals(e.To, page))
+                if (e.Direction.IsBack() && ReferenceEquals(e.To, page))
                 {
                     PageNavigated -= handler;
                     tcs.TrySetResult((TNextPage)e.From);
@@ -67,10 +67,10 @@ namespace Righthand.Navigation
             PageNavigated += handler;
             return tcs.Task;
         }
-        async ValueTask<bool> NavigateAsync(TPage to, bool isBack, bool isAwaited)
+        async ValueTask<bool> NavigateAsync(TPage to, NavigationDirection direction, bool isAwaited)
         {
             bool canNavigate;
-            if (current == null || isBack)
+            if (current == null || direction.IsBack())
             {
                 canNavigate = true;
             }
@@ -81,25 +81,26 @@ namespace Righthand.Navigation
             if (canNavigate)
             {
                 var previousCurrent = current;
-                if (!isBack)
+                switch (direction)
                 {
-                    if (current != null)
-                    {
-                        history.Push(current);
-                    }
-                    current = new HistoryItem<TPage>(to, isAwaited);
-                    var from = previousCurrent != null ? previousCurrent.Page : default(TPage);
-                    OnPageNavigated(new PageNavigatedEventArgs<TPage>(from, to, isBack));
-                }
-                else
-                {
-                    var historyItem = history.Pop();
-                    OnPageNavigated(new PageNavigatedEventArgs<TPage>(current.Page, historyItem.Page, isBack));
-                    if (!current.IsAwaited)
-                    {
-                        current.Page.Removed();
-                    }
-                    current = historyItem;
+                    case NavigationDirection.Forward:
+                        if (current != null)
+                        {
+                            history.Push(current);
+                        }
+                        current = new HistoryItem<TPage>(to, isAwaited);
+                        var from = previousCurrent != null ? previousCurrent.Page : default(TPage);
+                        OnPageNavigated(new PageNavigatedEventArgs<TPage>(from, to, NavigationDirection.Forward));
+                        break;
+                    default:
+                        var historyItem = history.Pop();
+                        OnPageNavigated(new PageNavigatedEventArgs<TPage>(current.Page, historyItem.Page, direction));
+                        if (!current.IsAwaited)
+                        {
+                            current.Page.Removed();
+                        }
+                        current = historyItem;
+                        break;
                 }
                 return true;
             }
@@ -108,13 +109,14 @@ namespace Righthand.Navigation
                 return false;
             }
         }
-        public ValueTask<bool> GoBackAsync(object args = null)
+        public ValueTask<bool> GoBackAsync(bool isManual)
         {
             if (history.Count > 0)
             {
                 var previous = history.Peek();
+                var direction = isManual ? NavigationDirection.ManualBack : NavigationDirection.AutomaticBack;
                 // isAwaited isn't used here - only when navigating forward
-                return NavigateAsync(previous.Page, isBack: true, isAwaited: false);
+                return NavigateAsync(previous.Page, direction, isAwaited: false);
             }
             else
             {

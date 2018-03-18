@@ -3,22 +3,35 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Righthand.Navigation.Sample.ViewModels;
+using System;
 
 namespace Righthand.Navigation.Sample.Droid.Fragments
 {
     public class FragmentTwo : BaseFragment<SecondPageViewModel>
     {
-        Button button;
+        Button forward;
+        Button goBack;
         TextView result;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = inflater.Inflate(Resource.Layout.Two, container, false);
             InitView(view);
-            button = view.FindViewById<Button>(Resource.Id.button);
-            button.Click += Button_Click;
+            forward = view.FindViewById<Button>(Resource.Id.button);
+            forward.Click += Button_Click;
+            goBack = view.FindViewById<Button>(Resource.Id.go_back);
+            goBack.Click += GoBack_Click;
             result = view.FindViewById<TextView>(Resource.Id.result);
             return view;
         }
+
+        private void GoBack_Click(object sender, EventArgs e)
+        {
+            if (ViewModel.GoBackCommand.CanExecute(null))
+            {
+                ViewModel.GoBackCommand.Execute(null);
+            }
+        }
+
         public override void OnResume()
         {
             base.OnResume();
@@ -40,17 +53,17 @@ namespace Righthand.Navigation.Sample.Droid.Fragments
         {
             result.Text = $"Result from third is:'{ViewModel.Result}'";
         }
-        void NextPageCommand_CanExecuteChanged(object sender, System.EventArgs e)
+        void NextPageCommand_CanExecuteChanged(object sender, EventArgs e)
         {
             UpdateButtonEnabled();
         }
 
         void UpdateButtonEnabled()
         {
-            button.Enabled = ViewModel.NextPageCommand.CanExecute(null);
+            forward.Enabled = ViewModel.NextPageCommand.CanExecute(null);
         }
 
-        void Button_Click(object sender, System.EventArgs e)
+        void Button_Click(object sender, EventArgs e)
         {
             ViewModel.NextPageCommand.Execute(null);
         }

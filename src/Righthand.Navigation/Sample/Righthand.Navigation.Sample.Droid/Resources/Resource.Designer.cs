@@ -72,6 +72,12 @@ namespace Righthand.Navigation.Sample.Droid
 			// aapt resource value: 0x7f070002
 			public const int button = 2131165186;
 			
+			// aapt resource value: 0x7f070006
+			public const int clear_stack = 2131165190;
+			
+			// aapt resource value: 0x7f070005
+			public const int go_back = 2131165189;
+			
 			// aapt resource value: 0x7f070001
 			public const int host = 2131165185;
 			

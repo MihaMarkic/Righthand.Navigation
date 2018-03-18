@@ -12,6 +12,7 @@ namespace Righthand.Navigation.Sample.iOS.ViewControllers
         public BaseViewController(TViewModel viewModel)
         {
             this.viewModel = viewModel;
+            Title = viewModel.Title;
         }
 		public override void ViewDidLoad()
 		{
@@ -23,7 +24,7 @@ namespace Righthand.Navigation.Sample.iOS.ViewControllers
             };
             Add(pageTitle);
 		}
-        protected UIButton AddButton(string title)
+        protected UIButton AddForwardButton(string title)
         {
             var button = new UIButton();
             button.SetTitle(title, UIControlState.Normal);

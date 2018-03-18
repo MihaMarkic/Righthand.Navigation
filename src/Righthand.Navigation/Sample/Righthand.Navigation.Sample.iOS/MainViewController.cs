@@ -23,11 +23,25 @@ namespace Righthand.Navigation.Sample.iOS
             }
             viewModel.NavigationService.PageNavigated += ViewModel_PageNavigated;
         }
+        bool isManualBack;
         void ViewModel_PageNavigated(object sender, PageNavigatedEventArgs<PageViewModel> e)
         {
-            if (!e.IsBack)
+            switch(e.Direction)
             {
-                UpdateViewController(e.To);
+                case NavigationDirection.Forward:
+                    UpdateViewController(e.To);
+                    break;
+                case NavigationDirection.ManualBack:
+                    isManualBack = true;
+                    try
+                    {
+                        PopViewController(animated: true);
+                    }
+                    finally
+                    {
+                        isManualBack = false;
+                    }
+                    break;
             }
         }
         void UpdateViewController(PageViewModel pageViewModel)
@@ -53,10 +67,15 @@ namespace Righthand.Navigation.Sample.iOS
 		public override UIViewController PopViewController(bool animated)
 		{
             // this can be asynchronous only when navigating forward
-            // also this call is required, otherwise navigation stack is not synced 
+            // also this call is required, otherwise navigation stack is not synchronized 
             // with controller anymore
-            var ignore = viewModel.NavigationService.GoBackAsync(null);
-            return base.PopViewController(animated);
+            if (!isManualBack)
+            {
+                var ignore = viewModel.NavigationService.GoBackAsync(isManual: false);
+            }
+            var result = base.PopViewController(animated);
+            Console.WriteLine($"History depth after navigation is {viewModel.NavigationService.NavigationDepth}");
+            return result;
 		}
 		protected override void Dispose(bool disposing)
 		{

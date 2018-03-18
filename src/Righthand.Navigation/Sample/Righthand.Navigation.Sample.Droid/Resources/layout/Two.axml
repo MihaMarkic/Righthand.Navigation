@@ -23,4 +23,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/result"
         android:textColor="#ff1a237e" />
+  <Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/go_back"
+       android:text="Go back" />
+  <Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/clear_stack"
+       android:text="Clear navigation stack" />
 </righthand.navigation.sample.droid.NLinearLayout>

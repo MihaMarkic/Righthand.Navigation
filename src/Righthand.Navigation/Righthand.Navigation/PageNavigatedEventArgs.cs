@@ -7,12 +7,12 @@ namespace Righthand.Navigation
     {
         public readonly TPage From;
         public readonly TPage To;
-        public readonly bool IsBack;
-        public PageNavigatedEventArgs(TPage from, TPage to, bool isBack)
+        public readonly NavigationDirection Direction;
+        public PageNavigatedEventArgs(TPage from, TPage to, NavigationDirection direction)
         {
             From = from;
             To = to;
-            IsBack = isBack;
+            Direction = direction;
         }
     }
 }

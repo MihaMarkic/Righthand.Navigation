@@ -8,15 +8,14 @@ namespace Righthand.Navigation.Sample.ViewModels
     {
         public override string Title => "Second";
         public RelayCommand NextPageCommand { get; }
+        public RelayCommand GoBackCommand { get; }
         public string Result { get; private set; }
         public SecondPageViewModel(INavigationService<PageViewModel> navigationService) : base(navigationService)
         {
-            NextPageCommand = new RelayCommand(
-                () => { 
-                var ignore = NavigateAndWaitForResultAsync(); 
-            });
+            NextPageCommand = new RelayCommand(() => { var ignore = NavigateToThirdAndWaitForResultAsync(); } );
+            GoBackCommand = new RelayCommand(() => { var ignore = navigationService.GoBackAsync(isManual: true); } );
         }
-        async Task NavigateAndWaitForResultAsync()
+        async Task NavigateToThirdAndWaitForResultAsync()
         {
             var (didNavigate, result) = await navigationService.NavigateAsync(new ThirdPageViewModel(navigationService),
                                                   waitFor: true, ct: CancellationToken.None);
