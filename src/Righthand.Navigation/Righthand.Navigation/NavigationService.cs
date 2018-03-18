@@ -10,14 +10,9 @@ namespace Righthand.Navigation
     {
         readonly Stack<HistoryItem<TPage>> history = new Stack<HistoryItem<TPage>>();
         public event EventHandler<PageNavigatedEventArgs<TPage>> PageNavigated;
-        //public event EventHandler<CanPageNavigateEventArgs<TPage>> CanPageNavigate;
         HistoryItem<TPage> current;
         protected virtual void OnPageNavigated(PageNavigatedEventArgs<TPage> e) => PageNavigated?.Invoke(this, e);
-        //protected virtual void OnCanPageNavigate(CanPageNavigateEventArgs<TPage> e) => CanPageNavigate?.Invoke(this, e);
-        public int NavigationDepth
-        {
-            get => history.Count;
-        }
+        public int NavigationDepth=> history.Count;
         public void Clear()
         {
             history.Clear();

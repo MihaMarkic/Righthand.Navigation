@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="ViewControllers\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -113,6 +114,10 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="MainViewController.cs" />
+    <Compile Include="ViewControllers\FirstViewController.cs" />
+    <Compile Include="ViewControllers\BaseViewController.cs" />
+    <Compile Include="ViewControllers\SecondViewController.cs" />
+    <Compile Include="ViewControllers\ThirdViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Righthand.Navigation.Sample\Righthand.Navigation.Sample.csproj">
