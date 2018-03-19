@@ -8,7 +8,7 @@
     <PackageId>Righthand.Navigation</PackageId>
     <Authors>Miha Markic</Authors>
     <Company>Righthand</Company>
-    <Description>A lightweight navigation implementation.</Description>
+    <Description>A lightweight navigation implementation with mobile devices in mind.</Description>
     <PackageProjectUrl>https://github.com/MihaMarkic/Righthand.Navigation</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/MihaMarkic/Righthand.Navigation/blob/master/LICENSE</PackageLicenseUrl>
     <PackageTags>navigation</PackageTags>
@@ -26,10 +26,5 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.4.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="IPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
   </ItemGroup>
 </Project>
