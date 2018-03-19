@@ -14,7 +14,7 @@ namespace Righthand.Navigation
         HistoryItem<TPage> current;
         protected virtual void OnPageNavigated(PageNavigatedEventArgs<TPage> e) => PageNavigated?.Invoke(this, e);
         protected virtual void OnNavigationHistoryCleared(NavigationHistoryClearedEventArgs e) => NavigationHistoryCleared?.Invoke(this, e);
-        public int NavigationDepth=> history.Count;
+        public int NavigationDepth => history.Count;
         public void ClearHistory()
         {
             int count = history.Count;
@@ -22,10 +22,10 @@ namespace Righthand.Navigation
             {
                 var item = history.Pop();
                 item.Page.Removed();
+                OnNavigationHistoryCleared(new NavigationHistoryClearedEventArgs(0, count));
             }
-            OnNavigationHistoryCleared(new NavigationHistoryClearedEventArgs(0, count));
         }
-        public async ValueTask<(bool didNavigate, TNextPage Result)> NavigateAsync<TNextPage>(TNextPage to, bool waitFor, CancellationToken ct)
+        public async ValueTask<(bool DidNavigate, TNextPage Result)> NavigateAsync<TNextPage>(TNextPage to, bool waitFor, CancellationToken ct)
             where TNextPage : TPage        
         {
             var returnsTo = current;

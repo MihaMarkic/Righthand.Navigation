@@ -10,7 +10,7 @@ namespace Righthand.Navigation
         event EventHandler<NavigationHistoryClearedEventArgs> NavigationHistoryCleared;
         int NavigationDepth { get; }
         ValueTask<bool> GoBackAsync(bool isManual);
-        ValueTask<(bool didNavigate, TNextPage Result)>NavigateAsync<TNextPage>(TNextPage to, bool waitFor, CancellationToken ct)
+        ValueTask<(bool DidNavigate, TNextPage Result)>NavigateAsync<TNextPage>(TNextPage to, bool waitFor, CancellationToken ct)
             where TNextPage: TPage;
         void ClearHistory();
     }
