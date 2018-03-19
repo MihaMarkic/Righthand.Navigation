@@ -3,6 +3,27 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageId>Righthand.Navigation</PackageId>
+    <Authors>Miha Markic</Authors>
+    <Company>Righthand</Company>
+    <Description>A lightweight navigation implementation.</Description>
+    <PackageProjectUrl>https://github.com/MihaMarkic/Righthand.Navigation</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/MihaMarkic/Righthand.Navigation/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>navigation</PackageTags>
+    <IncludeSymbols>false</IncludeSymbols>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Version>1.0.0-alpha1</Version>
+    <Copyright>2018, Righthand, Miha Markic</Copyright>
+    <!--<PackageIconUrl></PackageIconUrl>-->
+  </PropertyGroup>
+  <PropertyGroup>
+    <DocumentationFile>bin\Release\netstandard2.0\Righthand.Navigation.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\Righthand.Navigation.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.4.0" />
   </ItemGroup>

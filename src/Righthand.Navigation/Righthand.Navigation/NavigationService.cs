@@ -5,16 +5,40 @@ using System.Threading.Tasks;
 
 namespace Righthand.Navigation
 {
+    /// <summary>
+    /// Defines a navigation service.
+    /// </summary>
+    /// <typeparam name="TPage">Type of page.</typeparam>
     public class NavigationService<TPage> : INavigationService<TPage>
             where TPage : IPage<TPage>
     {
         readonly Stack<HistoryItem<TPage>> history = new Stack<HistoryItem<TPage>>();
+        /// <summary>
+        /// Occurs after a page has been navigated wither forward or backward.
+        /// </summary>
         public event EventHandler<PageNavigatedEventArgs<TPage>> PageNavigated;
+        /// <summary>
+        /// Occurs when navigation history or a part of has been manually cleared.
+        /// </summary>
         public event EventHandler<NavigationHistoryClearedEventArgs> NavigationHistoryCleared;
         HistoryItem<TPage> current;
+        /// <summary>
+        /// Raises <see cref="PageNavigated"/> event.
+        /// </summary>
+        /// <param name="e">Event arguments.</param>
         protected virtual void OnPageNavigated(PageNavigatedEventArgs<TPage> e) => PageNavigated?.Invoke(this, e);
+        /// <summary>
+        /// Raises <see cref="NavigationHistoryCleared"/> event.
+        /// </summary>
+        /// <param name="e">Event argumetns.</param>
         protected virtual void OnNavigationHistoryCleared(NavigationHistoryClearedEventArgs e) => NavigationHistoryCleared?.Invoke(this, e);
+        // <summary>
+        /// Current depth of navigation history. Current page not included.
+        /// </summary>
         public int NavigationDepth => history.Count;
+        /// <summary>
+        /// Clears navigation history.
+        /// </summary>
         public void ClearHistory()
         {
             int count = history.Count;
@@ -25,6 +49,14 @@ namespace Righthand.Navigation
                 OnNavigationHistoryCleared(new NavigationHistoryClearedEventArgs(0, count));
             }
         }
+        /// <summary>
+        /// Navigates forward.
+        /// </summary>
+        /// <typeparam name="TNextPage">Type of <paramref name="to"/>.</typeparam>
+        /// <param name="to">An instance of next page.</param>
+        /// <param name="waitFor">True when call should await for navigation back (results), false otherwise.</param>
+        /// <param name="ct">The cancellation token that will be checked prior to completing the returned task.</param>
+        /// <returns>A value representing the navigation success (DidNavigate) and a navigation result (Result) when page is awaited.</returns>
         public async ValueTask<(bool DidNavigate, TNextPage Result)> NavigateAsync<TNextPage>(TNextPage to, bool waitFor, CancellationToken ct)
             where TNextPage : TPage        
         {
@@ -117,6 +149,11 @@ namespace Righthand.Navigation
                 return false;
             }
         }
+        /// <summary>
+        /// Navigates back if possible.
+        /// </summary>
+        /// <param name="isManual">True when navigation is manually triggered, false otherwise.</param>
+        /// <returns>True when navigation occurred, false otherwise.</returns>
         public ValueTask<bool> GoBackAsync(bool isManual)
         {
             if (history.Count > 0)
