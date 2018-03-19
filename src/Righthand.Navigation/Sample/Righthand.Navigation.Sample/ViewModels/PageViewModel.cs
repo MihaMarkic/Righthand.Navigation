@@ -14,12 +14,8 @@ namespace Righthand.Navigation.Sample.ViewModels
         {
             return new ValueTask<bool>(true);
         }
-
-        public virtual void Navigated(PageViewModel from, bool isBack)
-        {
-            
-        }
-
+        public virtual void Navigated(PageViewModel from, NavigationDirection direction)
+        {}
         public virtual void Removed()
         {
             Dispose();

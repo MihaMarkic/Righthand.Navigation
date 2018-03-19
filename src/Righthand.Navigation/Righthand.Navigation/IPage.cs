@@ -5,7 +5,7 @@ namespace Righthand.Navigation
 {
     public interface IPage<T>
     {
-        void Navigated(T from, bool isBack);
+        void Navigated(T from, NavigationDirection direction);
         ValueTask<bool> CanNavigate(T to);
         // dispose here
         void Removed();
